@@ -1,0 +1,11 @@
+{
+  "user_auth_token": "FAKE-TOKEN-FOR-TESTS-DO-NOT-USE",
+  "user": {
+    "id": 3394846,
+    "credential": {
+      "id": 999,
+      "label": "Free",
+      "parameters": null
+    }
+  }
+}

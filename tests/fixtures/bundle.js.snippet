@@ -1,0 +1,22 @@
+// === fixture excerpt of https://play.qobuz.com/resources/8.1.0-b019/bundle.js ===
+// Captured 2026-04-26 for regression testing. Do not edit.
+
+// --- production app block ---
+production:{api:{appId:"798273057",appSecret:"05a4851e74ee47fda346f50cfdfc4f09"},braze:o(o({},u),{},{apiKey:"b464b6f4-ee64-4efe-91b5-5b43f8932bed"}),extra:l}};var d=window.__ENVIRONMENT__;t.default=c[d]||null;e.exports=t.default
+
+// --- genSignedRequest (new SHA-256 keyed scheme) ---
+{key:"genSignedRequest",value:function(e,t){var r=window.rng,n="";if(!t){var a=this._arguments,i=[];for(var o in a)Object.prototype.hasOwnProperty.call(a,o)&&i.push(o);i.sort();for(var s=0;s<i.length;s++){var l=i[s];n+="".concat(l).concat(a[l])}}return this._raw_sig="".concat(this._object_wanted).concat(this._method_wanted).concat(t?"":n).concat(e).concat(c.default.qobuzApi.appSecret),this._requestIdentifier="".concat(this._object_wanted).concat(this._method_wanted).concat(t?"":n).concat(e).concat(r.prototype.initialization()),(0,p.sha256)(this._raw_sig,this._requestIdentifier)}
+
+// --- localuser marker (storage key for the auth token) ---
+t.STORAGE_USER_KEY="localuser"
+
+// --- seed/timezone tokens for get_secrets() ---
+c.initialSeed("ZjY5YTc3MzQ2ODZjYjk0Mjc2MjkzNz",window.utimezone.london)
+c.initialSeed("ODA2MzMxYzNiMGI2NDFkYTkyM2I4OT",window.utimezone.abidjan)
+c.initialSeed("YWJiMjEzNjQ5NDVjMDU4MzMwOTY2N2",window.utimezone.berlin)
+name:"Africa/Abidjan",info:"BhZWQwMWQwNGE=OGEzYTliNTgwZj",extras:"gxNGYxOThhODg3OGU4ZjUzZGY3ZGI="
+name:"Europe/Dublin",info:"M0MTc2ZGFjMTM=MTliOTEzYzViOG",extras:"Y5NGMxMzgxYjYwNGRiMTZiNTBkZDc="
+name:"Europe/London",info:"hhNGI3YWMzODE=MGI0ZGVlYzBkZD",extras:"ExNGE0ZDljZGYyNjk2NDZmMjcwZTg="
+name:"Africa/Algiers",info:"hkZDg1MGRiYWI=YmVlZDZhNDMwOW",extras:"ZlNDhhMDhmNDlmZDI2MmJkMDUxOTg="
+name:"Europe/Paris",info:"ViZDk1NzM4NDQ=ZTdlNzc5MzViOW",extras:"QxNGVlNmE2YjFmNDY3OTcwMjg3ODc="
+name:"Europe/Berlin",info:"QxM2NhM2Q5M2E=YmFhMDRlOTU2OD",extras:"E4NDM4ZGIzNTVlMjZlNjM1M2Y0ZTc="
