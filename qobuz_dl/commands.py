@@ -153,7 +153,13 @@ def qobuz_dl_args(
         "-sc",
         "--show-config",
         action="store_true",
-        help="show configuration",
+        help="show configuration (with secrets redacted)",
+    )
+    parser.add_argument(
+        "-S",
+        "--show-secrets",
+        action="store_true",
+        help="reveal secrets in --show-config output (default: redacted)",
     )
 
     subparsers = parser.add_subparsers(
