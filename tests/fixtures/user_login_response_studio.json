@@ -1,0 +1,31 @@
+{
+  "user_auth_token": "FAKE-TOKEN-FOR-TESTS-DO-NOT-USE",
+  "user": {
+    "id": 3394846,
+    "publicId": "redacted",
+    "email": "redacted@example.com",
+    "login": "redacted",
+    "language_code": "en",
+    "zone": "world",
+    "country_code": "US",
+    "credential": {
+      "id": 12345,
+      "label": "Studio",
+      "description": "Studio Premier",
+      "parameters": {
+        "lossy_streaming": true,
+        "lossless_streaming": true,
+        "hires_streaming": true,
+        "hires_purchases_streaming": true,
+        "mobile_streaming": true,
+        "offline_streaming": true,
+        "hfp_purchase": true,
+        "included_format_group_ids": [1, 2, 3, 4],
+        "color_scheme": {"logo": "white"},
+        "label": "Studio Premier",
+        "short_label": "Studio",
+        "source": "qobuz"
+      }
+    }
+  }
+}

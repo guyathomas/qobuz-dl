@@ -1,6 +1,18 @@
 # qobuz-dl
-Search, explore and download Lossless and Hi-Res music from [Qobuz](https://www.qobuz.com/). It *just works*™ (2025).
+Search, explore and download Lossless and Hi-Res music from [Qobuz](https://www.qobuz.com/).
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VZWSWVGZGJRMU&source=url)
+
+> **Status (2026-04):** Email/password login was disabled by Qobuz
+> server-side in April 2026. This branch replaces it with **token-based
+> login** (`user_id` + `user_auth_token` captured from `play.qobuz.com`).
+>
+> Downloads have been verified end-to-end on a Studio account
+> (2026-04-26, FLAC 16/44.1). Some accounts may hit
+> `InvalidAppSecretError` from a partial Qobuz signing rollout
+> (MD5 → SHA-256 keyed by an HKDF-derived value); the CLI exits cleanly
+> with code 3 and a pointer back here in that case rather than
+> tracebacking. If you hit this, please open an issue with your account
+> region/tier so we can confirm scope.
 
 ## Features
 
@@ -30,7 +42,24 @@ pip3 install --upgrade qobuz-dl
 pip3 install windows-curses
 pip3 install --upgrade qobuz-dl
 ```
-#### Run qobuz-dl and enter your credentials
+#### Capture your token from play.qobuz.com
+Email/password login was disabled by Qobuz in April 2026. You now need
+to copy a `user_id` and `user_auth_token` from a logged-in browser
+session.
+
+1. Open <https://play.qobuz.com> in your browser and log in.
+2. Open DevTools (F12) → **Console** tab.
+3. Paste and press Enter:
+   ```js
+   JSON.parse(localStorage.getItem('localuser'))
+   ```
+4. Copy the `id` and `user_auth_token` fields from the result.
+
+(Fallback if the console is disabled: **Application** → **Local Storage**
+→ `https://play.qobuz.com` → click the `localuser` row. The value is a
+JSON blob with the same `id` and `user_auth_token` fields.)
+
+#### Run qobuz-dl and paste your token
 ##### Linux / MAC OS
 ```
 qobuz-dl
@@ -39,8 +68,12 @@ qobuz-dl
 ```
 qobuz-dl.exe
 ```
+The first run will prompt for `user_id` and `user_auth_token` and
+store them at `~/.config/qobuz-dl/config.ini` (mode `0600` on POSIX).
 
 > If something fails, run `qobuz-dl -r` to reset your config file.
+> Run `qobuz-dl --show-config` to inspect the current config (secrets
+> are redacted by default; pass `--show-secrets` to reveal them).
 
 ## Examples
 
@@ -149,8 +182,10 @@ commands:
     lucky         lucky mode
 ```
 
-## Module usage 
-Using `qobuz-dl` as a module is really easy. Basically, the only thing you need is `QobuzDL` from `core`.
+## Module usage
+Using `qobuz-dl` as a module is straightforward. The only thing you need
+is `QobuzDL` from `core` plus a `user_id` + `user_auth_token` pair
+captured from `play.qobuz.com` (see the *Getting started* section).
 
 ```python
 import logging
@@ -158,15 +193,21 @@ from qobuz_dl.core import QobuzDL
 
 logging.basicConfig(level=logging.INFO)
 
-email = "your@email.com"
-password = "your_password"
+user_id = "3394846"
+user_auth_token = "your-token-here"
 
 qobuz = QobuzDL()
-qobuz.get_tokens() # get 'app_id' and 'secrets' attrs
-qobuz.initialize_client(email, password, qobuz.app_id, qobuz.secrets)
+qobuz.get_tokens()  # populate qobuz.app_id and qobuz.secrets from bundle.js
+qobuz.initialize_client_with_token(
+    user_id, user_auth_token, qobuz.app_id, qobuz.secrets
+)
 
 qobuz.handle_url("https://play.qobuz.com/album/va4j3hdlwaubc")
 ```
+
+> The pre-2026 `Client(email, pwd, app_id, secrets)` constructor and
+> `QobuzDL.initialize_client(email, pwd, ...)` were removed in 0.9.10.0.
+> Call `Client.from_token(...)` / `QobuzDL.initialize_client_with_token(...)`.
 
 Attributes, methods and parameters have been named as self-explanatory as possible.
 
